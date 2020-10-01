@@ -1,7 +1,9 @@
 package com.example.numberorderdemo;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Firebase functionality works when offline, online is required for first launch to retrieve data
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Firebase functionality works when offline, online is required for first launch to retrieve data
 
         FirebaseHandler.getSetUserLevel();
 
@@ -60,9 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textViews[i] = findViewById(resID);
         }
     }
-
     public static void levelCreate(){
-        textViews[1].setText("Level: " + levelNumber);
+            textViews[1].setText("Level: " + levelNumber);
 
         if(levelNumber <= 3){
             List<Integer> shuffleList = new ArrayList<>(zeroToFour);
@@ -266,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else{
-            textViews[1].setText("Hard Mode Enabled");
             for(int i=0; i<100; i++)
             {
                 zeroToNinetyNine.add(i);
@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     buttons[i].setText(shuffleList.get(i).toString());
                 }
             }
+            textViews[1].setText("Hard Mode Enabled");
         }
     }
 
@@ -373,15 +374,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 if (correctCount == userAnswer.size() -1){
-                    Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
-                    levelNumber++;
-                    FirebaseHandler.getSetUserLevel();
-                    levelCreate();
-                    userAnswer.clear();
-                    displayUserAnswer = "";
-                    textViews[2].setText(displayUserAnswer);
-                    buttons[6].setEnabled(false);
-                    clickCount = 0;
+                    if(levelNumber == 60){
+                        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setTitle("Hard Mode Unlocked")
+                                .setMessage("Congratulations you have completed all standard levels. " +
+                                        "You may continue playing on Hard Mode which has infinite levels if " +
+                                        "you want to test you skills")
+                                .setPositiveButton("OKAY", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //set what would happen when positive button is clicked
+                                        levelNumber++;
+                                        FirebaseHandler.getSetUserLevel();
+                                        levelCreate();
+                                        userAnswer.clear();
+                                        displayUserAnswer = "";
+                                        textViews[2].setText(displayUserAnswer);
+                                        buttons[6].setEnabled(false);
+                                        clickCount = 0;
+                                    }
+                                })
+                                .show();
+                    }
+                    else {
+                        Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                        levelNumber++;
+                        FirebaseHandler.getSetUserLevel();
+                        levelCreate();
+                        userAnswer.clear();
+                        displayUserAnswer = "";
+                        textViews[2].setText(displayUserAnswer);
+                        buttons[6].setEnabled(false);
+                        clickCount = 0;
+                    }
                 }
                 else {
                     Toast.makeText(this, "Incorrect", Toast.LENGTH_SHORT).show();

@@ -22,7 +22,6 @@ public class FirebaseHandler {
                 }
                 else { //updates level in database
                     dbRef.child("orderNumberLevel").setValue(MainActivity.levelNumber);
-                    MainActivity.textViews[1].setText("Level: " + MainActivity.levelNumber); //displays user's current level
                 }
             }
 
