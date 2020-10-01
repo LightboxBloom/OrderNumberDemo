@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static Button[] buttons = new Button[8]; //Button array used to initialize all buttons
     public static TextView[] textViews = new TextView[3]; //Button array used to initialize all buttons
-    public static int levelNumber = 1;
+    public static int levelNumber = -100;
     public static List<Integer> zeroToFour = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4));
     public static List<Integer> fiveToNine = new ArrayList<Integer>(Arrays.asList(5,6,7,8,9));
     public static List<Integer> tens = new ArrayList<Integer>(Arrays.asList(10,11,12,13,14,15,16,17,18,19));
@@ -30,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Firebase functionality works when offline, online is required for first launch to retrieve data
+
+        FirebaseHandler.getSetUserLevel();
 
         for(int i=0; i<buttons.length; i++)        //initializing buttons
         {
@@ -53,11 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int resID = getResources().getIdentifier(textViewID, "id", getPackageName());
             textViews[i] = findViewById(resID);
         }
-
-        levelCreate();
     }
 
-    public void levelCreate(){
+    public static void levelCreate(){
         textViews[1].setText("Level: " + levelNumber);
 
         if(levelNumber <= 3){
@@ -371,6 +375,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (correctCount == userAnswer.size() -1){
                     Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
                     levelNumber++;
+                    FirebaseHandler.getSetUserLevel();
                     levelCreate();
                     userAnswer.clear();
                     displayUserAnswer = "";
