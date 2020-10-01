@@ -1,0 +1,399 @@
+package com.example.numberorderdemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static Button[] buttons = new Button[8]; //Button array used to initialize all buttons
+    public static TextView[] textViews = new TextView[3]; //Button array used to initialize all buttons
+    public static int levelNumber = 1;
+    public static List<Integer> zeroToFour = new ArrayList<Integer>(Arrays.asList(0,1,2,3,4));
+    public static List<Integer> fiveToNine = new ArrayList<Integer>(Arrays.asList(5,6,7,8,9));
+    public static List<Integer> tens = new ArrayList<Integer>(Arrays.asList(10,11,12,13,14,15,16,17,18,19));
+    public static List<Integer> twenties = new ArrayList<Integer>(Arrays.asList(20,21,22,23,24,25,26,27,28,29));
+    public static List<Integer> zeroToNinetyNine = new ArrayList<Integer>();
+    public static String displayUserAnswer = "";
+    public static List<Integer> userAnswer = new ArrayList<Integer>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        for(int i=0; i<buttons.length; i++)        //initializing buttons
+        {
+            String buttonID = "button" + (i+1);
+
+            int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+            buttons[i] = findViewById(resID);
+            buttons[i].setOnClickListener(this);
+            buttons[i].setVisibility(View.INVISIBLE);
+        }
+
+        buttons[6].setEnabled(false);
+        buttons[7].setEnabled(true);
+        buttons[6].setVisibility(View.VISIBLE);
+        buttons[7].setVisibility(View.VISIBLE);
+
+        for(int i=0; i<textViews.length; i++)        //initializing textViews
+        {
+            String textViewID = "textView" + (i+1);
+
+            int resID = getResources().getIdentifier(textViewID, "id", getPackageName());
+            textViews[i] = findViewById(resID);
+        }
+
+        levelCreate();
+    }
+
+    public void levelCreate(){
+        textViews[1].setText("Level: " + levelNumber);
+
+        if(levelNumber <= 3){
+            List<Integer> shuffleList = new ArrayList<>(zeroToFour);
+            Collections.shuffle(shuffleList);
+            for(int i=3; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<3; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 6){
+            List<Integer> shuffleList = new ArrayList<>(fiveToNine);
+            Collections.shuffle(shuffleList);
+            for(int i=3; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<3; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 9){
+            List<Integer> shuffleList = new ArrayList<>(zeroToFour);
+            shuffleList.addAll(fiveToNine);
+            Collections.shuffle(shuffleList);
+            for(int i=4; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<4; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 12){
+            List<Integer> shuffleList = new ArrayList<>(zeroToFour);
+            shuffleList.addAll(fiveToNine);
+            Collections.shuffle(shuffleList);
+            for(int i=5; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<5; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 15){
+            List<Integer> shuffleList = new ArrayList<>(zeroToFour);
+            shuffleList.addAll(fiveToNine);
+            Collections.shuffle(shuffleList);
+            for(int i=0; i<6; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 20){
+            List<Integer> shuffleList = new ArrayList<>(tens);
+            Collections.shuffle(shuffleList);
+            for(int i=3; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<3; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 25){
+            List<Integer> shuffleList = new ArrayList<>(tens);
+            Collections.shuffle(shuffleList);
+            for(int i=4; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<4; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 30){
+            List<Integer> shuffleList = new ArrayList<>(tens);
+            Collections.shuffle(shuffleList);
+            for(int i=5; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<5; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 35){
+            List<Integer> shuffleList = new ArrayList<>(tens);
+            Collections.shuffle(shuffleList);
+
+            for(int i=0; i<6; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 40){
+            List<Integer> shuffleList = new ArrayList<>(twenties);
+            Collections.shuffle(shuffleList);
+            for(int i=3; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<3; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 45){
+            List<Integer> shuffleList = new ArrayList<>(twenties);
+            Collections.shuffle(shuffleList);
+            for(int i=4; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<4; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 50){
+            List<Integer> shuffleList = new ArrayList<>(twenties);
+            Collections.shuffle(shuffleList);
+            for(int i=5; i<buttons.length - 2; i++) {
+                {
+                    buttons[i].setVisibility(View.INVISIBLE);
+                }
+            }
+            for(int i=0; i<5; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else if(levelNumber <= 60){
+            List<Integer> shuffleList = new ArrayList<>(twenties);
+            shuffleList.addAll(tens);
+            shuffleList.addAll(fiveToNine);
+            shuffleList.addAll(zeroToFour);
+            Collections.shuffle(shuffleList);
+
+            for(int i=0; i<6; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+        else{
+            textViews[1].setText("Hard Mode Enabled");
+            for(int i=0; i<100; i++)
+            {
+                zeroToNinetyNine.add(i);
+            }
+            List<Integer> shuffleList = new ArrayList<>(zeroToNinetyNine);
+            Collections.shuffle(shuffleList);
+            for(int i=0; i<6; i++) {
+                {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    buttons[i].setEnabled(true);
+                    buttons[i].setText(shuffleList.get(i).toString());
+                }
+            }
+        }
+    }
+
+    public void checkClicked(int clickCount){
+        int requiredClicks = 0;
+        for(int i=0; i<buttons.length - 2; i++) {
+            {
+                if(buttons[i].getVisibility() == View.VISIBLE){
+                    requiredClicks++;
+                }
+            }
+        }
+        if(requiredClicks == clickCount){
+            buttons[6].setEnabled(true);
+        }
+    }
+
+    int clickCount = 0;
+
+    @Override
+    public void onClick(View view) {
+
+
+        switch (view.getId()){
+            //number buttons
+            case R.id.button1:
+                buttons[0].setEnabled(false); //button is made unclickable so the user cannot use the same number twice
+                displayUserAnswer = displayUserAnswer + buttons[0].getText().toString() + "     ";
+                textViews[2].setText(displayUserAnswer);
+                userAnswer.add(Integer.parseInt(buttons[0].getText().toString()));
+                clickCount++;
+                checkClicked(clickCount);
+                break;
+
+            case R.id.button2:
+                buttons[1].setEnabled(false);
+                displayUserAnswer = displayUserAnswer + buttons[1].getText().toString() + "     ";
+                textViews[2].setText(displayUserAnswer);
+                userAnswer.add(Integer.parseInt(buttons[1].getText().toString()));
+                clickCount++;
+                checkClicked(clickCount);
+                break;
+
+            case R.id.button3:
+                buttons[2].setEnabled(false);
+                displayUserAnswer = displayUserAnswer + buttons[2].getText().toString() + "     ";
+                textViews[2].setText(displayUserAnswer);
+                userAnswer.add(Integer.parseInt(buttons[2].getText().toString()));
+                clickCount++;
+                checkClicked(clickCount);
+                break;
+
+            case R.id.button4:
+                buttons[3].setEnabled(false);
+                displayUserAnswer = displayUserAnswer + buttons[3].getText().toString() + "     ";
+                textViews[2].setText(displayUserAnswer);
+                userAnswer.add(Integer.parseInt(buttons[3].getText().toString()));
+                clickCount++;
+                checkClicked(clickCount);
+                break;
+
+            case R.id.button5:
+                buttons[4].setEnabled(false);
+                displayUserAnswer = displayUserAnswer + buttons[4].getText().toString() + "     ";
+                textViews[2].setText(displayUserAnswer);
+                userAnswer.add(Integer.parseInt(buttons[4].getText().toString()));
+                clickCount++;
+                checkClicked(clickCount);
+                break;
+
+            case R.id.button6:
+                buttons[5].setEnabled(false);
+                displayUserAnswer = displayUserAnswer + buttons[5].getText().toString() + "     ";
+                textViews[2].setText(displayUserAnswer);
+                userAnswer.add(Integer.parseInt(buttons[5].getText().toString()));
+                ++clickCount;
+                checkClicked(clickCount);
+                break;
+
+            case R.id.button7: //submit
+                int correctCount = 0;
+
+                for(int i=0; i<userAnswer.size() - 1; i++) {
+                    {
+                        if(userAnswer.get(i) < userAnswer.get(i+1)){
+                            correctCount++;
+                        }
+                        else {
+
+                        }
+                    }
+                }
+                if (correctCount == userAnswer.size() -1){
+                    Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+                    levelNumber++;
+                    levelCreate();
+                    userAnswer.clear();
+                    displayUserAnswer = "";
+                    textViews[2].setText(displayUserAnswer);
+                    buttons[6].setEnabled(false);
+                    clickCount = 0;
+                }
+                else {
+                    Toast.makeText(this, "Incorrect", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+
+            case R.id.button8: //restart
+                for(int i=0; i<buttons.length - 2; i++) {
+                    buttons[i].setEnabled(true);
+                }
+                userAnswer.clear();
+                displayUserAnswer = "";
+                textViews[2].setText(displayUserAnswer);
+                buttons[6].setEnabled(false);
+                clickCount = 0;
+                break;
+        }
+    }
+}
